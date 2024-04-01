@@ -1,8 +1,9 @@
 import inquirer from "inquirer";
+import chalk from "chalk";
 let myBalance = 20000;
 let pinCode = 12345;
 let userName = "";
-console.log("Welcome to the ATM service of XYZ bank.");
+console.log(chalk.yellow.bold("Welcome to the ATM service of XYZ bank."));
 const name = await inquirer.prompt([
     { message: "Please enter your name:", type: "input", name: "fullName" },
 ]);
@@ -13,11 +14,13 @@ let pinAnswer = await inquirer.prompt([
         name: "pinNumber",
     },
 ]);
-if (pinAnswer.pinNumber != pinCode) {
-    console.log("Please enter a valid pin code.");
+if (pinAnswer.pinNumber === pinCode) {
+    console.log(chalk.blue("Your pin code is correct.\nPlease start your transaction."));
 }
-else if (pinAnswer.pinNumber === pinCode) {
-    console.log("Your pin code is correct.\nPlease start your transaction.");
+else if (pinAnswer.pinNumber != pinCode) {
+    console.log(chalk.red.bold("Invalid pin code."));
+}
+if (pinAnswer.pinNumber === pinCode) {
     let bankAnswer = await inquirer.prompt([
         {
             message: "Please select one of the options:",
@@ -54,7 +57,9 @@ else if (pinAnswer.pinNumber === pinCode) {
     if (bankAnswer.operations === "Check Balance") {
         console.log("Your current balance is:", `${myBalance}`, ".");
     }
-    else {
-        console.log("Thank you for choosing XYZ bank!");
-    }
 }
+else {
+    console.log(chalk.red("Please enter your pin code correctly to perform a transaction."));
+}
+;
+console.log(chalk.green.bold("Thank you for choosing XYZ bank!"));
